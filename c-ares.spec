@@ -4,7 +4,7 @@
 #
 Name     : c-ares
 Version  : 1.11.0
-Release  : 2
+Release  : 3
 URL      : http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz
 Source0  : http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz
 Summary  : asynchronous DNS lookup library
