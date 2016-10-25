@@ -4,7 +4,7 @@
 #
 Name     : c-ares
 Version  : 1.11.0
-Release  : 4
+Release  : 5
 URL      : http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz
 Source0  : http://c-ares.haxx.se/download/c-ares-1.11.0.tar.gz
 Summary  : asynchronous DNS lookup library
@@ -12,6 +12,7 @@ Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib
 Requires: c-ares-doc
+Patch1: CVE-2016-5180.patch
 
 %description
 ___       __ _ _ __ ___  ___
@@ -47,12 +48,15 @@ lib components for the c-ares package.
 
 %prep
 %setup -q -n c-ares-1.11.0
+%patch1 -p1
 
 %build
+export LANG=C
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
 %check
+export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost
