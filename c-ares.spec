@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.12.0
-Release  : 7
-URL      : http://c-ares.haxx.se/download/c-ares-1.12.0.tar.gz
-Source0  : http://c-ares.haxx.se/download/c-ares-1.12.0.tar.gz
-Source99 : http://c-ares.haxx.se/download/c-ares-1.12.0.tar.gz.asc
+Version  : 1.13.0
+Release  : 8
+URL      : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz
+Source0  : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz
+Source99 : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz.asc
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
-License  : GPL-2.0+ MIT X11
+License  : GPL-2.0+ MIT NTP X11
 Requires: c-ares-lib
 Requires: c-ares-doc
 
@@ -49,11 +49,14 @@ lib components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.12.0
+%setup -q -n c-ares-1.13.0
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492030969
+export SOURCE_DATE_EPOCH=1500323296
 %configure --disable-static
 make V=1  %{?_smp_mflags}
 
@@ -61,11 +64,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1492030969
+export SOURCE_DATE_EPOCH=1500323296
 rm -rf %{buildroot}
 %make_install
 
