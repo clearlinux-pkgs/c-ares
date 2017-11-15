@@ -6,7 +6,7 @@
 #
 Name     : c-ares
 Version  : 1.13.0
-Release  : 8
+Release  : 9
 URL      : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz
 Source0  : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz
 Source99 : http://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz.asc
@@ -15,6 +15,14 @@ Group    : Development/Tools
 License  : GPL-2.0+ MIT NTP X11
 Requires: c-ares-lib
 Requires: c-ares-doc
+BuildRequires : automake
+BuildRequires : automake-dev
+BuildRequires : gettext-bin
+BuildRequires : libtool
+BuildRequires : libtool-dev
+BuildRequires : m4
+BuildRequires : pkg-config-dev
+Patch1: defaults.patch
 
 %description
 ___       __ _ _ __ ___  ___
@@ -50,15 +58,16 @@ lib components for the c-ares package.
 
 %prep
 %setup -q -n c-ares-1.13.0
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1500323296
-%configure --disable-static
-make V=1  %{?_smp_mflags}
+export SOURCE_DATE_EPOCH=1510728510
+%reconfigure --disable-static
+make V=1  %{?_smp_mflags} DEFAULTFLAGS="$CFLAGS"
 
 %check
 export LANG=C
@@ -68,7 +77,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1500323296
+export SOURCE_DATE_EPOCH=1510728510
 rm -rf %{buildroot}
 %make_install
 
