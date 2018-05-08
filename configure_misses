@@ -4,7 +4,6 @@ Configure miss: whether to enable strict compiler warnings
 Configure miss: whether to enable compiler warnings as errors
 Configure miss: whether to enable curl debug memory tracking
 Configure miss: whether to expose internal static functions for testing
-Configure miss: whether to build with code coverage support
 Configure miss: if OS is AIX (to define _ALL_SOURCE)
 Configure miss: if _THREAD_SAFE is already defined
 Configure miss: if _THREAD_SAFE is actually needed
@@ -21,7 +20,6 @@ Configure miss: socket.h
 Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton might be used
 Configure miss: bitncmp
-Configure miss: if compiler needs -Werror to reject unknown flags
-Configure miss: whether to build with code coverage support
+Configure miss: __system_property_get
 Configure miss: whether user namespaces are supported
 Configure miss: whether UTS namespaces are supported
