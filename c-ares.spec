@@ -6,7 +6,7 @@
 #
 Name     : c-ares
 Version  : 1.15.0
-Release  : 13
+Release  : 14
 URL      : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz
 Source0  : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz
 Source99 : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz.asc
