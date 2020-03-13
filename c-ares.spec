@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.15.0
-Release  : 14
-URL      : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz
-Source0  : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz
-Source99 : http://c-ares.haxx.se/download/c-ares-1.15.0.tar.gz.asc
-Summary  : asynchronous DNS lookup library
+Version  : 1.16.0
+Release  : 15
+URL      : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz.asc
+Summary  : C library that performs DNS requests and name resolves asynchronously
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib = %{version}-%{release}
@@ -25,16 +25,22 @@ BuildRequires : pkg-config-dev
 Patch1: defaults.patch
 
 %description
-___       __ _ _ __ ___  ___
-/ __| ___ / _` | '__/ _ \/ __|
-| (_  |___| (_| | | |  __/\__ \
-\___|     \__,_|_|  \___||___/
+c-ares
+======
+[![Build Status](https://travis-ci.org/c-ares/c-ares.svg?branch=master)](https://travis-ci.org/c-ares/c-ares)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/aevgc5914tm72pvs/branch/master?svg=true)](https://ci.appveyor.com/project/c-ares/c-ares/branch/master)
+[![Coverage Status](https://coveralls.io/repos/c-ares/c-ares/badge.svg?branch=master&service=github)](https://coveralls.io/github/c-ares/c-ares?branch=master)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/291/badge)](https://bestpractices.coreinfrastructure.org/projects/291)
+[![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/c-ares.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:c-ares)
+[![Releases](https://coderelease.io/badge/c-ares/c-ares)](https://coderelease.io/github/repository/c-ares/c-ares)
 
 %package dev
 Summary: dev components for the c-ares package.
 Group: Development
 Requires: c-ares-lib = %{version}-%{release}
 Provides: c-ares-devel = %{version}-%{release}
+Requires: c-ares = %{version}-%{release}
+Requires: c-ares = %{version}-%{release}
 
 %description dev
 dev components for the c-ares package.
@@ -58,30 +64,40 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.15.0
+%setup -q -n c-ares-1.16.0
+cd %{_builddir}/c-ares-1.16.0
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1544654291
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1584108370
+# -Werror is for werrorists
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %reconfigure --disable-static
-make  %{?_smp_mflags} DEFAULTFLAGS="$CFLAGS"
+make  %{?_smp_mflags}  DEFAULTFLAGS="$CFLAGS"
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1544654291
+export SOURCE_DATE_EPOCH=1584108370
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
-cp LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/LICENSE.md
+cp %{_builddir}/c-ares-1.16.0/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
 %make_install
 
 %files
@@ -89,7 +105,11 @@ cp LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/LICENSE.md
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/ares.h
+/usr/include/ares_build.h
+/usr/include/ares_dns.h
+/usr/include/ares_rules.h
+/usr/include/ares_version.h
 /usr/lib64/libcares.so
 /usr/lib64/pkgconfig/libcares.pc
 /usr/share/man/man3/ares_cancel.3
@@ -103,8 +123,10 @@ cp LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/LICENSE.md
 /usr/share/man/man3/ares_free_data.3
 /usr/share/man/man3/ares_free_hostent.3
 /usr/share/man/man3/ares_free_string.3
+/usr/share/man/man3/ares_freeaddrinfo.3
 /usr/share/man/man3/ares_get_servers.3
 /usr/share/man/man3/ares_get_servers_ports.3
+/usr/share/man/man3/ares_getaddrinfo.3
 /usr/share/man/man3/ares_gethostbyaddr.3
 /usr/share/man/man3/ares_gethostbyname.3
 /usr/share/man/man3/ares_gethostbyname_file.3
@@ -151,8 +173,8 @@ cp LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/LICENSE.md
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.3.0
+/usr/lib64/libcares.so.2.4.0
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/c-ares/LICENSE.md
+/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb

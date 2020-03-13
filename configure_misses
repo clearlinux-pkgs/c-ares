@@ -19,7 +19,6 @@ Configure miss: whether to use libgcc
 Configure miss: socket.h
 Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton might be used
+Configure miss: stropts.h
 Configure miss: bitncmp
 Configure miss: __system_property_get
-Configure miss: whether user namespaces are supported
-Configure miss: whether UTS namespaces are supported

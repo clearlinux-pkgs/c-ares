@@ -9,8 +9,10 @@ libcares.so.2:ares_fds
 libcares.so.2:ares_free_data
 libcares.so.2:ares_free_hostent
 libcares.so.2:ares_free_string
+libcares.so.2:ares_freeaddrinfo
 libcares.so.2:ares_get_servers
 libcares.so.2:ares_get_servers_ports
+libcares.so.2:ares_getaddrinfo
 libcares.so.2:ares_gethostbyaddr
 libcares.so.2:ares_gethostbyname
 libcares.so.2:ares_gethostbyname_file
