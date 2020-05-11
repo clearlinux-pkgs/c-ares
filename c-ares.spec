@@ -5,12 +5,12 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.16.0
-Release  : 15
-URL      : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz
-Source0  : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz
-Source1  : https://c-ares.haxx.se/download/c-ares-1.16.0.tar.gz.asc
-Summary  : C library that performs DNS requests and name resolves asynchronously
+Version  : 1.16.1
+Release  : 16
+URL      : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz.asc
+Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib = %{version}-%{release}
@@ -25,21 +25,16 @@ BuildRequires : pkg-config-dev
 Patch1: defaults.patch
 
 %description
-c-ares
-======
-[![Build Status](https://travis-ci.org/c-ares/c-ares.svg?branch=master)](https://travis-ci.org/c-ares/c-ares)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/aevgc5914tm72pvs/branch/master?svg=true)](https://ci.appveyor.com/project/c-ares/c-ares/branch/master)
-[![Coverage Status](https://coveralls.io/repos/c-ares/c-ares/badge.svg?branch=master&service=github)](https://coveralls.io/github/c-ares/c-ares?branch=master)
-[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/291/badge)](https://bestpractices.coreinfrastructure.org/projects/291)
-[![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/c-ares.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:c-ares)
-[![Releases](https://coderelease.io/badge/c-ares/c-ares)](https://coderelease.io/github/repository/c-ares/c-ares)
+___       __ _ _ __ ___  ___
+/ __| ___ / _` | '__/ _ \/ __|
+| (_  |___| (_| | | |  __/\__ \
+\___|     \__,_|_|  \___||___/
 
 %package dev
 Summary: dev components for the c-ares package.
 Group: Development
 Requires: c-ares-lib = %{version}-%{release}
 Provides: c-ares-devel = %{version}-%{release}
-Requires: c-ares = %{version}-%{release}
 Requires: c-ares = %{version}-%{release}
 
 %description dev
@@ -64,8 +59,8 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.16.0
-cd %{_builddir}/c-ares-1.16.0
+%setup -q -n c-ares-1.16.1
+cd %{_builddir}/c-ares-1.16.1
 %patch1 -p1
 
 %build
@@ -73,15 +68,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1584108370
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1589236588
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %reconfigure --disable-static
 make  %{?_smp_mflags}  DEFAULTFLAGS="$CFLAGS"
@@ -94,10 +88,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1584108370
+export SOURCE_DATE_EPOCH=1589236588
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
-cp %{_builddir}/c-ares-1.16.0/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
+cp %{_builddir}/c-ares-1.16.1/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
 %make_install
 
 %files
@@ -173,7 +167,7 @@ cp %{_builddir}/c-ares-1.16.0/LICENSE.md %{buildroot}/usr/share/package-licenses
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.4.0
+/usr/lib64/libcares.so.2.4.1
 
 %files license
 %defattr(0644,root,root,0755)
