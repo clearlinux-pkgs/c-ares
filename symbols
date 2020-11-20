@@ -29,6 +29,7 @@ libcares.so.2:ares_library_initialized
 libcares.so.2:ares_mkquery
 libcares.so.2:ares_parse_a_reply
 libcares.so.2:ares_parse_aaaa_reply
+libcares.so.2:ares_parse_caa_reply
 libcares.so.2:ares_parse_mx_reply
 libcares.so.2:ares_parse_naptr_reply
 libcares.so.2:ares_parse_ns_reply

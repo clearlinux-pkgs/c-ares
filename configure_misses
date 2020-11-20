@@ -2,7 +2,6 @@ Configure miss: whether to enable debug build options
 Configure miss: whether to enable compiler optimizer
 Configure miss: whether to enable strict compiler warnings
 Configure miss: whether to enable compiler warnings as errors
-Configure miss: whether to enable curl debug memory tracking
 Configure miss: whether to expose internal static functions for testing
 Configure miss: if OS is AIX (to define _ALL_SOURCE)
 Configure miss: if _THREAD_SAFE is already defined

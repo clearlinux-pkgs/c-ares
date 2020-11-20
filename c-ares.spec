@@ -5,24 +5,17 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.16.1
-Release  : 16
-URL      : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz
-Source0  : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz
-Source1  : https://c-ares.haxx.se/download/c-ares-1.16.1.tar.gz.asc
+Version  : 1.17.1
+Release  : 17
+URL      : https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz.asc
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib = %{version}-%{release}
 Requires: c-ares-license = %{version}-%{release}
-BuildRequires : automake
-BuildRequires : automake-dev
-BuildRequires : gettext-bin
-BuildRequires : libtool
-BuildRequires : libtool-dev
-BuildRequires : m4
-BuildRequires : pkg-config-dev
-Patch1: defaults.patch
+BuildRequires : buildreq-cmake
 
 %description
 ___       __ _ _ __ ___  ___
@@ -59,16 +52,15 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.16.1
-cd %{_builddir}/c-ares-1.16.1
-%patch1 -p1
+%setup -q -n c-ares-1.17.1
+cd %{_builddir}/c-ares-1.17.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1589236588
+export SOURCE_DATE_EPOCH=1605903304
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -77,7 +69,7 @@ export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-%reconfigure --disable-static
+%configure --disable-static
 make  %{?_smp_mflags}  DEFAULTFLAGS="$CFLAGS"
 
 %check
@@ -85,13 +77,13 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1589236588
+export SOURCE_DATE_EPOCH=1605903304
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
-cp %{_builddir}/c-ares-1.16.1/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
+cp %{_builddir}/c-ares-1.17.1/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
 %make_install
 
 %files
@@ -137,6 +129,7 @@ cp %{_builddir}/c-ares-1.16.1/LICENSE.md %{buildroot}/usr/share/package-licenses
 /usr/share/man/man3/ares_mkquery.3
 /usr/share/man/man3/ares_parse_a_reply.3
 /usr/share/man/man3/ares_parse_aaaa_reply.3
+/usr/share/man/man3/ares_parse_caa_reply.3
 /usr/share/man/man3/ares_parse_mx_reply.3
 /usr/share/man/man3/ares_parse_naptr_reply.3
 /usr/share/man/man3/ares_parse_ns_reply.3
@@ -167,7 +160,7 @@ cp %{_builddir}/c-ares-1.16.1/LICENSE.md %{buildroot}/usr/share/package-licenses
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.4.1
+/usr/lib64/libcares.so.2.4.2
 
 %files license
 %defattr(0644,root,root,0755)
