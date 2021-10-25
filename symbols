@@ -38,6 +38,7 @@ libcares.so.2:ares_parse_soa_reply
 libcares.so.2:ares_parse_srv_reply
 libcares.so.2:ares_parse_txt_reply
 libcares.so.2:ares_parse_txt_reply_ext
+libcares.so.2:ares_parse_uri_reply
 libcares.so.2:ares_process
 libcares.so.2:ares_process_fd
 libcares.so.2:ares_query
