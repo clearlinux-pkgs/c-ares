@@ -1,5 +1,32 @@
    Changelog for the c-ares project. Generated with git2changes.pl
 
+Version 1.18.1 (26 Oct 2021)
+
+bradh352 (26 Oct 2021)
+- missed version
+
+- 1.18.1 release prep
+
+- ares_getaddrinfo() was returning the wrong size for ai_addrlen
+  
+  ai_addrlen was erroneously returning 16 bytes instead of the
+  sizeof(struct sockaddr_in6).  This is a regression introduced
+  in 1.18.0.
+  
+  Reported by: James Brown <jbrown@easypost.com>
+  Fix By: Brad House (@bradh352)
+
+- Windows: autotools force linking to iphlpapi
+
+GitHub (26 Oct 2021)
+- [Gregor Jasny brought this change]
+
+  Fix typo detected by lintian (#434)
+  
+  typo in docs for ares_parse_uri_reply
+  
+  Fix By: Gregor Jasny (@gjasny)
+
 Version 1.18.0 (25 Oct 2021)
 
 bradh352 (25 Oct 2021)
@@ -5092,19 +5119,3 @@ Yang Tse (27 Nov 2009)
   
   memdebug.h needs access to libcurl's setup.h from libcurl's lib subdirectory
   and also needs access to libcurl's generated curl_config.h
-
-- Undo old temporary change once used for testing purposes
-
-- Mention many changes
-
-- Mention --enable-symbol-hiding configure option
-
-- Symbol hiding configure options renamed to the hopefully less ambiguous
-  --enable-symbol-hiding and --disable-symbol-hiding as well as related
-  macro names and some internal variables used for them.
-  
-  Related configuration file preprocessor symbols named to
-  CARES_SYMBOL_HIDING and CARES_SYMBOL_SCOPE_EXTERN.
-
-- Header inclusion depending on HAVE_* symbol.
-  Fix two typos.
