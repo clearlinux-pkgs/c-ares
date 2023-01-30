@@ -24,3 +24,5 @@ Configure miss: whether to enable debug build options
 Configure miss: whether to enable strict compiler warnings
 Configure miss: whether to expose internal static functions for testing
 Configure miss: whether to use libgcc
+Configure miss: x86_64-generic-linux-gnu-file
+Configure miss: x86_64-generic-linux-gnu-file

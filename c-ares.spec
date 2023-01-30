@@ -5,17 +5,20 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.18.1
-Release  : 20
-URL      : https://c-ares.haxx.se/download/c-ares-1.18.1.tar.gz
-Source0  : https://c-ares.haxx.se/download/c-ares-1.18.1.tar.gz
-Source1  : https://c-ares.haxx.se/download/c-ares-1.18.1.tar.gz.asc
+Version  : 1.19.0
+Release  : 21
+URL      : https://c-ares.haxx.se/download/c-ares-1.19.0.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.19.0.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.19.0.tar.gz.asc
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib = %{version}-%{release}
 Requires: c-ares-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 
 %description
 ___       __ _ _ __ ___  ___
@@ -52,23 +55,23 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.18.1
-cd %{_builddir}/c-ares-1.18.1
+%setup -q -n c-ares-1.19.0
+cd %{_builddir}/c-ares-1.19.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635347244
+export SOURCE_DATE_EPOCH=1675091478
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 %configure --disable-static
 make  %{?_smp_mflags}  DEFAULTFLAGS="$CFLAGS"
 
@@ -80,10 +83,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1635347244
+export SOURCE_DATE_EPOCH=1675091478
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
-cp %{_builddir}/c-ares-1.18.1/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb
+cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb || :
 %make_install
 
 %files
@@ -162,7 +165,7 @@ cp %{_builddir}/c-ares-1.18.1/LICENSE.md %{buildroot}/usr/share/package-licenses
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.5.1
+/usr/lib64/libcares.so.2.6.0
 
 %files license
 %defattr(0644,root,root,0755)
