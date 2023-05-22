@@ -1,28 +1,60 @@
 Configure miss: __system_property_get
+Configure miss: __system_property_get
 Configure miss: bitncmp
+Configure miss: bitncmp
+Configure miss: clock_gettime in libraries
 Configure miss: clock_gettime in libraries
 Configure miss: g++ option to enable C++11 features
 Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: g++ option to enable C++11 features
+Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: if OS is AIX (to define _ALL_SOURCE)
+Configure miss: if OS is AIX (to define _ALL_SOURCE)
+Configure miss: if X/Open network library is required
 Configure miss: if X/Open network library is required
 Configure miss: if _THREAD_SAFE is actually needed
+Configure miss: if _THREAD_SAFE is actually needed
+Configure miss: if _THREAD_SAFE is already defined
 Configure miss: if _THREAD_SAFE is already defined
 Configure miss: if _THREAD_SAFE is onwards defined
+Configure miss: if _THREAD_SAFE is onwards defined
 Configure miss: if compiler optimizer assumed setting might be used
+Configure miss: if compiler optimizer assumed setting might be used
+Configure miss: if g++ -std=c++11 static flag -static works
+Configure miss: if g++ -std=c++11 static flag -static works
+Configure miss: if g++ -std=c++11 static flag -static works
+Configure miss: if g++ -std=c++11 static flag -static works
+Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton might be used
+Configure miss: if inet_net_pton might be used
+Configure miss: socket.h
 Configure miss: socket.h
 Configure miss: stropts.h
+Configure miss: stropts.h
+Configure miss: whether build target is a native Windows one
 Configure miss: whether build target is a native Windows one
 Configure miss: whether to build shared libraries with -mimpure-text
+Configure miss: whether to build shared libraries with -mimpure-text
+Configure miss: whether to build shared libraries with -no-undefined
 Configure miss: whether to build shared libraries with -no-undefined
 Configure miss: whether to build static libraries only
+Configure miss: whether to build static libraries only
+Configure miss: whether to enable compiler optimizer
 Configure miss: whether to enable compiler optimizer
 Configure miss: whether to enable compiler warnings as errors
+Configure miss: whether to enable compiler warnings as errors
+Configure miss: whether to enable debug build options
 Configure miss: whether to enable debug build options
 Configure miss: whether to enable strict compiler warnings
+Configure miss: whether to enable strict compiler warnings
+Configure miss: whether to expose internal static functions for testing
 Configure miss: whether to expose internal static functions for testing
 Configure miss: whether to use libgcc
+Configure miss: whether to use libgcc
+Configure miss: x86_64-generic-linux-gnu-file
+Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: x86_64-generic-linux-gnu-file
