@@ -7,7 +7,7 @@
 #
 Name     : c-ares
 Version  : 1.19.1
-Release  : 22
+Release  : 23
 URL      : https://c-ares.haxx.se/download/c-ares-1.19.1.tar.gz
 Source0  : https://c-ares.haxx.se/download/c-ares-1.19.1.tar.gz
 Source1  : https://c-ares.haxx.se/download/c-ares-1.19.1.tar.gz.asc
@@ -68,7 +68,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1684765188
+export SOURCE_DATE_EPOCH=1685487445
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -100,7 +100,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1684765188
+export SOURCE_DATE_EPOCH=1685487445
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
 cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/e9c597f9b6cf935773ee731d4170b0c2ba142dbb || :
@@ -115,7 +115,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libcares.so
 /usr/include/ares.h
 /usr/include/ares_build.h
 /usr/include/ares_dns.h
@@ -186,7 +185,6 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libcares.so.2
 /V3/usr/lib64/libcares.so.2.6.1
 /usr/lib64/libcares.so.2
 /usr/lib64/libcares.so.2.6.1
