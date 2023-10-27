@@ -30,10 +30,14 @@ Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton might be used
 Configure miss: if inet_net_pton might be used
+Configure miss: memory.h
+Configure miss: memory.h
 Configure miss: socket.h
 Configure miss: socket.h
 Configure miss: stropts.h
 Configure miss: stropts.h
+Configure miss: whether C compiler accepts -Werror=partial-availability
+Configure miss: whether C compiler accepts -Werror=partial-availability
 Configure miss: whether build target is a native Windows one
 Configure miss: whether build target is a native Windows one
 Configure miss: whether to build shared libraries with -mimpure-text
@@ -48,8 +52,6 @@ Configure miss: whether to enable compiler warnings as errors
 Configure miss: whether to enable compiler warnings as errors
 Configure miss: whether to enable debug build options
 Configure miss: whether to enable debug build options
-Configure miss: whether to enable strict compiler warnings
-Configure miss: whether to enable strict compiler warnings
 Configure miss: whether to expose internal static functions for testing
 Configure miss: whether to expose internal static functions for testing
 Configure miss: whether to use libgcc
