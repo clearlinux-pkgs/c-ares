@@ -30,6 +30,8 @@ Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton can be linked
 Configure miss: if inet_net_pton might be used
 Configure miss: if inet_net_pton might be used
+Configure miss: iphlpapi.h
+Configure miss: iphlpapi.h
 Configure miss: memory.h
 Configure miss: memory.h
 Configure miss: socket.h
