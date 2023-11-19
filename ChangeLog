@@ -1,5 +1,97 @@
    Changelog for the c-ares project. Generated with git2changes.pl
 
+Version 1.22.1 (17 Nov 2023)
+
+GitHub (17 Nov 2023)
+- [Brad House brought this change]
+
+  1.22.1 release prep (#624)
+
+Brad House (17 Nov 2023)
+- ares__htable_strvp should be case-insensitive
+
+- optimize: large /etc/hosts files reading
+  
+  profiling found some hot paths that could be optimized to reduce
+  insert times into the cache.
+  
+  Fix By: Brad House (@bradh352)
+
+- Fix /etc/hosts processing performance with all entries using same IP address
+  
+  Some users use blacklist files like https://github.com/StevenBlack/hosts which
+  can contain 200k+ host entries all pointing to 0.0.0.0.  Due to the merge
+  logic in the new hosts processor, all those entries will be associated as
+  aliases for the same ip address.
+  
+  The first issue is that it attempts to check the status of all the hosts for
+  the merged entry, when it should only be checking the new hosts added to the
+  merged entry, so this caused exponential time as the entries got longer.
+  
+  The next issue is if searching for one of those hosts, it would append all
+  the matches as cnames/aliases, but there is zero use for 200k aliases
+  being appended to a lookup, so we are artificially capping this to 100.
+  
+  Bug report reference: https://bugs.gentoo.org/917400
+  
+  Fix By: Brad House (@bradh352)
+
+- new badges
+
+- OpenWatcom: time_t is unsigned, change math using time_t to promote to a 64bit signed integer
+
+- fix more docs
+
+GitHub (15 Nov 2023)
+- [Gregor Jasny brought this change]
+
+  Fix typos and man page whatis entry (#619)
+  
+  Those issues were detected by lintian.
+  
+  Fix By: Gregor Jasny (@gjasny)
+
+- [Douglas R. Reno brought this change]
+
+  Fix building c-ares-1.22.0 and higher under Watcom. (#623)
+  
+  Update config-win32.h to define HAVE_STDINT_H when OpenWatcom is in use.
+  
+  Fix By: Douglas R. Reno (@renodr)
+
+Brad House (15 Nov 2023)
+- OpenWatcom: fix PR building
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- CI/CD: Add OpenWatcom
+
+- warnings: try to prevent warnings due to automatic integer promotion
+
+- only push to coverity weekly or on explicit coverity_scan branch commits
+
+- try to cleanup bogus compiler warnings
+
+- try to cleanup bogus compiler warnings
+
+- additional test coverage
+
+- Coverity: omit tests
+
+- Coverity: more
+
+- Coverity: silence false positives
+
 Version 1.22.0 (14 Nov 2023)
 
 Brad House (14 Nov 2023)
@@ -5815,82 +5907,3 @@ Yang Tse (29 Jul 2011)
 - configure: avoid direct usage of AS_TR_* macros
 
 - xc-translit.m4 provides transliteration macros with well defined behavior.
-
-Jakub Hrozek (15 Jun 2011)
-- Revert "Only fall back to AF_INET searches when looking for AF_UNSPEC addresses"
-  
-  This reverts commit b5823d65706af687c0e5110af8f0cfdcd068997d.
-  
-  This patch was not reviewed properly before pushing
-
-- Revert "Do not use sized constants in public headers"
-  
-  This reverts commit 22c01e96f7b2ae9923e1baa50bfe3c0d22297a7d.
-  
-  This is a Red Hat specific patch that does not belong into upstream
-
-- Use correct sizeof in ares_getnameinfo()
-
-- Do not leak rr_name on failures inside ares_parse_ptr_reply
-
-- Do not leak rr_name on failures inside ares_parse_a_reply
-
-- Do not leak rr_name on failures inside ares_parse_aaaa_reply
-
-- Do not leak rr_name on failures inside ares_parse_ns_reply
-
-- Fix incorrect sizeof() in ares_save_options
-
-- Fix incorrect allocation in ares_parse_ptr_reply()
-
-- Only fall back to AF_INET searches when looking for AF_UNSPEC addresses
-
-- Do not use sized constants in public headers
-
-Daniel Stenberg (13 Jun 2011)
-- [Jakub Hrozek brought this change]
-
-  ares_free_hostent(NULL) should be a noop
-
-Yang Tse (8 Jun 2011)
-- configure: fix recvfrom 5th arg type qualifier detection (followup)
-
-- configure: fix recvfrom 5th arg type qualifier detection
-  
-  Additionally remove whitespace from EOL
-
-Daniel Stenberg (4 Jun 2011)
-- strlen: use size_t to receive the return
-
-Yang Tse (4 Jun 2011)
-- xlc: avoid preprocessor definition usage when linking
-
-- ares_nowarn: icc 9.1 workaround
-
-- ares_nowarn: header inclusion fix
-
-- ares_init: make ares_private.h last included header again
-
-- compiler warning: fix
-  
-  Fix compiler warning: conversion may lose significant bits
-
-- compiler warning: fix
-  
-  Fix compiler warning: variable was set but never used
-  
-  Fix compiler warning: clobber ignored
-
-- ares_iphlpapi: fix compiler warnings
-
-- winsock: compilation fixes
-  
-  Provide winsock iphlpapi alternative definitions to prevent compilation
-  failures when using a variety of winsock header implementations.
-
-Daniel Stenberg (17 May 2011)
-- [David Stuart brought this change]
-
-  IPv6-on-windows: find DNS servers correctly
-
-- man pages: docs for the c-ares utility programs

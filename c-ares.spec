@@ -8,11 +8,11 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.22.0
-Release  : 26
-URL      : https://c-ares.haxx.se/download/c-ares-1.22.0.tar.gz
-Source0  : https://c-ares.haxx.se/download/c-ares-1.22.0.tar.gz
-Source1  : https://c-ares.haxx.se/download/c-ares-1.22.0.tar.gz.asc
+Version  : 1.22.1
+Release  : 27
+URL      : https://c-ares.haxx.se/download/c-ares-1.22.1.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.22.1.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.22.1.tar.gz.asc
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
@@ -59,10 +59,10 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.22.0
-cd %{_builddir}/c-ares-1.22.0
+%setup -q -n c-ares-1.22.1
+cd %{_builddir}/c-ares-1.22.1
 pushd ..
-cp -a c-ares-1.22.0 buildavx2
+cp -a c-ares-1.22.1 buildavx2
 popd
 
 %build
@@ -70,7 +70,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1699990216
+export SOURCE_DATE_EPOCH=1700437761
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -122,7 +122,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1699990216
+export SOURCE_DATE_EPOCH=1700437761
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
 cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/12127d9b9e698989a5b23087aa7c39f5e6eb264e || :
@@ -275,9 +275,9 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libcares.so.2.8.0
+/V3/usr/lib64/libcares.so.2.8.1
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.8.0
+/usr/lib64/libcares.so.2.8.1
 
 %files license
 %defattr(0644,root,root,0755)
