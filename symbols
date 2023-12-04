@@ -110,5 +110,6 @@ libcares.so.2:ares_set_socket_configure_callback
 libcares.so.2:ares_set_socket_functions
 libcares.so.2:ares_set_sortlist
 libcares.so.2:ares_strerror
+libcares.so.2:ares_threadsafety
 libcares.so.2:ares_timeout
 libcares.so.2:ares_version

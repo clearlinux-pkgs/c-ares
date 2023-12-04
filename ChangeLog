@@ -1,5 +1,168 @@
    Changelog for the c-ares project. Generated with git2changes.pl
 
+Version 1.23.0 (28 Nov 2023)
+
+GitHub (28 Nov 2023)
+- [Brad House brought this change]
+
+  1.23.0 release prep (#641)
+
+Brad House (28 Nov 2023)
+- add missing manpage to distribution list
+
+- clang-format
+
+- remove a simply
+
+- fix doc typo
+
+- ares_init_options with ARES_OPT_UDP_PORT wrong byte order
+  
+  Regression from c-ares 1.19.1, ARES_OPT_UDP_PORT and ARES_OPT_TCP_PORT are
+  specified from the user in host-byte order, but there was a regression that
+  caused it to be read as if it was network byte order.
+  
+  Fixes Bug: #640
+  Reported By: @Flow86
+  Fix By: Brad House (@bradh352)
+
+- fix ares_threadsafety() prototype
+
+GitHub (28 Nov 2023)
+- [Brad House brought this change]
+
+  Basic Thread Safety (#636)
+  
+  c-ares does not have any concept of thread-safety. It has always been 100% up to the implementor to ensure they never call c-ares from more than one thread at a time. This patch adds basic thread-safety support, which can be disabled at compile time if not desired. It uses a single recursive mutex per channel, which should be extremely quick when uncontested so overhead should be minimal.
+  
+  Fixes Bug: #610
+  
+  Also sets the stage to implement #611
+  
+  Fix By: Brad House (@bradh352)
+
+- [petrvh brought this change]
+
+  ares_getaddrinfo(): do not use search domains if ARES_FLAG_NOSEARCH is set (#638)
+  
+  c-ares init options defines a flag ARES_FLAG_NOSEARCH that is supposed to prevent search using configured domain suffixes, however when using ares_getaddrinfo() the flag was ignored and domain suffixes were used anyway.
+  
+  Configuring zero domains to search also does not work (if ndomains == 0 default domain search list is loaded regardless of the flag ARES_OPT_DOMAINS being set).
+  
+  This change adds a check for the ARES_FLAG_NOSEARCH in as_is_only() function that is used by ares_getaddrinfo() to decide if to try to query next possible name ( next_dns_lookup() )
+  
+  Fix By: @petrvh
+
+Brad House (25 Nov 2023)
+- Fix MacOS version test
+  
+  It appears that the Issue #454 wasn't really fixed for some reason.  This commit should fix the detection.
+  
+  Fix By: Brad House (@bradh352)
+
+Daniel Stenberg (24 Nov 2023)
+- CI: codespell
+  
+  Closes #635
+
+GitHub (24 Nov 2023)
+- [Christian Clauss brought this change]
+
+  Fix typos discovered by codespell (#634)
+  
+  % `codespell --ignore-words-list="aas,aci,acter,atleast,contentss,firey,fo,sais,seh,statics"`
+  * https://pypi.org/project/codespell
+  
+  Fix By: Christian Clauss (@cclauss)
+
+Brad House (22 Nov 2023)
+- environment is meant as an override for sysconfig
+
+GitHub (22 Nov 2023)
+- [Ignat brought this change]
+
+  Support attempts and timeout options from resolv.conf (#632)
+  
+  c-ares parses only antique version of options for timeout and number of retries from resolv.conf (`retrans` and `retry` are missing in modern documentation https://man7.org/linux/man-pages/man5/resolv.conf.5.html).
+  
+  I add support of `attempts` and `timeout` options
+  
+  Fix By: Ignat (@Kontakter)
+
+- [Brad House brought this change]
+
+  more precise timeout calculation (#633)
+  
+  The timeout calculation was occurring with millisecond precision, but on some systems, there is microsecond precision which could mean we'd tell a user a timeout time prior to the actual timeout.
+  
+  Fixes Bug: #631
+  Fix By: Brad House (@bradh352)
+
+- [Christian Clauss brought this change]
+
+  INSTALL.md: Fix typo (#630)
+  
+  Fix By: Christian Clauss (@cclauss)
+
+Brad House (19 Nov 2023)
+- SonarCloud: fix minor codesmells
+
+- fix test case regression due to missing parens
+
+- now that warnings are enabled on test cases, clear a bunch of warnings
+
+- CMake: CXXFLAGS environment wasn't being read because C++ compiler was enabled after settings warnings.
+
+- fix additional windows test warnings
+
+- cleanup some Windows warnings in test
+
+- clang-format
+
+GitHub (19 Nov 2023)
+- [Brad House brought this change]
+
+  Fix Windows UWP (Store) building and add to CI/CD (#627)
+  
+  When building for UWP (WindowsStore), additional headers are needed and some functions are not available. This also adds AppVeyor CI/CD support to catch these issues in the future.
+  
+  Fix By: Deal (@halx99) and Brad House (@bradh352)
+
+Brad House (19 Nov 2023)
+- ares_set_servers_*() should allow an empty server list
+  
+  For historic reasons, we have users depending on ares_set_servers_*()
+  to return ARES_SUCCESS when passing no servers and actually *clear*
+  the server list.  It appears they do this for test cases to simulate
+  DNS unavailable or similar.  Presumably they could achieve the same
+  effect in other ways (point to localhost on a port that isn't in use).
+  But it seems like this might be wide-spread enough to cause headaches
+  so we just will document and test for this behavior, clearly it hasn't
+  caused "issues" for anyone with the old behavior.
+  
+  See: https://github.com/nodejs/node/pull/50800
+  
+  Fix By: Brad House (@bradh352)
+
+GitHub (19 Nov 2023)
+- [Brad House brought this change]
+
+  Query Cache support (#625)
+  
+  This PR implements a query cache at the lowest possible level, the actual dns request and response messages.  Only successful and `NXDOMAIN` responses are cached. The lowest TTL in the response message determines the cache validity period for the response, and is capped at the configuration value for `qcache_max_ttl`.  For `NXDOMAIN` responses, the SOA record is evaluated.
+  
+  For a query to match the cache, the opcode, flags, and each question's class, type, and name are all evaluated.  This is to prevent matching a cached entry for a subtly different query (such as if the RD flag is set on one request and not another).
+  
+  For things like ares_getaddrinfo() or ares_search() that may spawn multiple queries, each individual message received is cached rather than the overarching response.  This makes it possible for one query in the sequence to be purged from the cache while others still return cached results which means there is no chance of ever returning stale data.
+  
+  We have had a lot of user requests to return TTLs on all the various parsers like `ares_parse_caa_reply()`, and likely this is because they want to implement caching mechanisms of their own, thus this PR should solve those issues as well.
+  
+  Due to the internal data structures we have these days, this PR is less than 500 lines of new code.
+  
+  Fixes #608
+  
+  Fix By: Brad House (@bradh352)
+
 Version 1.22.1 (17 Nov 2023)
 
 GitHub (17 Nov 2023)
@@ -5800,110 +5963,3 @@ Yang Tse (27 Sep 2011)
 - ares_process.c: fix compiler warning
 
 - fix MSVC compiler warning 'conditional expression is constant'
-
-- setup_once.h cleanup and sync
-
-- [Denis Bilenko brought this change]
-
-  ares_getnameinfo: fix random results with c-ares 1.7.5
-  
-  In ares_getnameinfo memcpy did not copy enough bytes, causing
-  it to return arbitrary memory contents as a result.
-
-- warnings: fix another 'conversion may lose significant bits' compiler warning
-
-- ares_dns.h: adjust DNS__16BIT and DNS__32BIT macro definitions
-  
-  Fixing compiler warnings existing definitions triggered on these.
-
-- ares_destroy.c: fix segfault in ares_destroy_options()
-
-Daniel Stenberg (21 Aug 2011)
-- ares_parse_srv_reply: silence compiler warnings
-  
-  ... by adding ugly typecasts.
-
-- CHANGES: generate from script
-  
-  The CHANGES file is now generated automatically with 'git2changes.pl',
-  invoked by the maketgz script which is used to build release archives.
-  
-  The former human edited CHANGES file was renamed to CHANGES.0 in git.
-
-Yang Tse (21 Aug 2011)
-- Makefile.netware: SIZEOF_SHORT definition
-
-- warnings: fix some 'conversion may lose significant bits' compiler warnings
-
-- configure: fix symbol hiding usability check
-  
-  A more thorough test is done now in order to determine visibility attribute
-  usability, given that some compilers don't support visibility attribute on
-  all configurations.
-
-Daniel Stenberg (16 Aug 2011)
-- 1.7.6: start working...
-
-Version 1.7.5 (16 Aug 2011)
-
-Daniel Stenberg (16 Aug 2011)
-- CHANGES: synced for 1.7.5 release
-
-- RELEASE-NOTES: synced with bb4096effef7f000
-
-Jakub Hrozek (15 Aug 2011)
-- Only fall back to AF_INET searches when looking for AF_UNSPEC addresses
-
-Yang Tse (10 Aug 2011)
-- [Gisle Vanem brought this change]
-
-  ares_iphlpapi.h: Watcom C fix
-  
-    Added "!defined(_WS2DEF_)" since Watcom doesn't have
-    a per type guard for the typedefs 'CSADDR_INFO' (that MingW has) or
-    'SOCKET_ADDRESS' (that MSVC has). But we can use the header-guard for
-    <ws2def.h> instead.
-
-- [Gisle Vanem brought this change]
-
-  Makefile.Watcom:
-    * The 'NTDDI_VERSION' needs to be raised to 0x05010000
-      in order for SOCKADDR_STORAGE etc. to be typedefed.
-    * Replaced '-dUSE_WATT32' with '-dWATT32'.
-    * Added $(DEMOS) to the 'all' target and removed the 'demos'
-      target to be consistent with e.g. Makefile.msvc etc.
-    * 'ENABLE_IPV6' is no longer used. Hence removed the '%use_ipv6' construct.
-    * object-file order seems to be important (Watcom v.19). Hence
-      'ares_getopt.obj' must be put after the .obj that references getopt().
-
-- cares-compilers.m4: CARES_CONVERT_INCLUDE_TO_ISYSTEM adjustments
-  
-  Add CARES_CHECK_COMPILER as a requirement.
-  
-  Ensure macro does nothing unless GNU_C or CLANG compiler is used.
-  
-  This should allow usage of this macro in unforeseen placements.
-
-- config-win32.h: comments adjustments - followup
-
-- config-win32.h: comments adjustments
-
-Daniel Stenberg (5 Aug 2011)
-- [Tom Hughes brought this change]
-
-  ares_parse_a_reply: fix memleak
-
-Yang Tse (29 Jul 2011)
-- cares-functions.m4 serial # bump
-
-- Revert "configure: additional flag checks for fcntl() and socket()"
-  
-  This reverts commit 5f2a3b0e48f26d24cb1fefea0dccb92d417dcbf7.
-
-- configure: additional flag checks for fcntl() and socket()
-
-- xc-translit.m4 fix quoting
-
-- configure: avoid direct usage of AS_TR_* macros
-
-- xc-translit.m4 provides transliteration macros with well defined behavior.

@@ -34,6 +34,10 @@ Configure miss: iphlpapi.h
 Configure miss: iphlpapi.h
 Configure miss: memory.h
 Configure miss: memory.h
+Configure miss: netioapi.h
+Configure miss: netioapi.h
+Configure miss: pthread_np.h
+Configure miss: pthread_np.h
 Configure miss: socket.h
 Configure miss: socket.h
 Configure miss: stropts.h
