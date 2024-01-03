@@ -1,5 +1,336 @@
    Changelog for the c-ares project. Generated with git2changes.pl
 
+Version 1.25.0 (2 Jan 2024)
+
+GitHub (2 Jan 2024)
+- [Brad House brought this change]
+
+  1.25.0 release prep (#676)
+
+Brad House (31 Dec 2023)
+- tests: replace google DNS with CloudFlare for reverse lookups as google's servers stopped responding properly
+
+- OSSFuzz: it assumes autotools builds a static library by default, which means the old autotools must have done that even though there were comments saying it wasn't.  Disable static by default on Windows however since it can't build both simultaneously.
+
+- autotools: update logic for building tests to provide more feedback
+
+- set winver consistently across build systems
+
+GitHub (28 Dec 2023)
+- [Brad House brought this change]
+
+  Autotools: rework to simplify and fix recent issues (#674)
+  
+  Completely rework the autotools build system, issues have cropped up due to the complexity and could cause issues on even semi-modern Linux systems (Ubuntu 20.04 for example).
+  
+  Changes include:
+  
+  Remove all curl/xc/cares m4 helper files, they go overboard on detections of functions and datatypes. Go back to more plain autoconf macros as they've come a long way over the years.
+  Use known systems and heuristics to determine datatypes for functions like send() and recv(), rather than the error prone detection which required thousands of permutations and might still get it wrong.
+  Remove unneeded configure arguments like --enable-debug or --enable-optimize, its more common for people to simply pass their own CFLAGS on the command line.
+  Only require CARES_STATICLIB definition on Windows static builds, its not necessary ever for other systems, even when hiding non-public symbols.
+  Remove some function and definition detections that were never used in c-ares
+  The test framework is now embedded into the toplevel configure system, there was no need to chain build the test system as it is never built externally to c-ares.
+  As a side-effect of the changes, a configure run completes in about 25% of the original time.
+  
+  This has been tested on various Linux distributions (of varying age), FreeBSD, MacOS, Windows (via MSYS2 with Mingw), and Solaris10/11 (by @dfandrich), AIX 7.3 (by @dfandrich). It is not unlikely that this may have broken more esoteric or legacy systems, and we'll likely need to be ready to accept bug reports and patches, but it has removed over 10k lines of build system code. It is very likely any issues that crop up will add far fewer lines of code to fix such systems.
+  
+  Fixes Bug: #670
+  Fix By: Brad House (@bradh352)
+
+Brad House (22 Dec 2023)
+- docs: host -> ip
+  
+  fix mismatched documentation stating host instead of ip
+  
+  Fix By: Brad House (@bradh352)
+
+GitHub (21 Dec 2023)
+- [Brad House brought this change]
+
+  Old MacOS SDKs require you include sys/socket.h before net/if.h (#673)
+  
+  Old MacOS SDKs (like 10.8) require you include `sys/socket.h` before you include `net/if.h` as reported by MacPorts.  Using a new SDK but with setting the macos target version does not have the same issue.
+  
+  Fixes Issue: #672
+  Fix By: Brad House (@bradh352)
+
+- [Brad House brought this change]
+
+  Autotools warning fixes (#671)
+  
+  * get rid of clashes with curl namespace
+  * remove warnings due to deprecated functionality
+  * reorder some macro calls to get rid of warnings due to being called in the wrong order
+  
+  Fix By: Brad House (@bradh352)
+
+Brad House (19 Dec 2023)
+- clang-format
+
+- ares_strsplit() rewrite as wrapper around ares__buf_split()
+  
+  We want to limit as much as possible any hand written parsers.
+  ares__buf_split() uses the new memory-safe parsing routines.  This
+  adds a couple of additional flags to remove duplicates which the
+  existing split code did.
+  
+  Fix By: Brad House (@bradh352)
+
+- clang-format
+
+- sonarcloud: const
+
+- Connection failure should increment server failure count first
+  
+  In order to be sure a different server is chosen on the next query,
+  a read error should result in the failure count being updated
+  first before requeing the request to a different server.
+  
+  Fix By: Brad House (@bradh352)
+
+GitHub (18 Dec 2023)
+- [Brad House brought this change]
+
+  ahost should use ares_getaddrinfo() these days (#669)
+  
+  ahost wasn't printing both ipv4 and ipv6 addresses. This day and age, it really should.
+  
+  This PR also adds the ability to specify the servers to use.
+  
+  Fix By: Brad House (@bradh352)
+
+Brad House (17 Dec 2023)
+- Fix bad stub for ares__iface_ips_enumerate()
+  
+  If the ability to enumerate interface ip addresses does not exist
+  on a system, the stub function contained the wrong prototype.
+  
+  Fixes Bug: #668
+  Fix By: Brad House (@bradh352)
+
+GitHub (17 Dec 2023)
+- [Gregor Jasny brought this change]
+
+  Fix minor warnings and documentation typos (#666)
+  
+  Build warnings could be seen [here](https://buildd.debian.org/status/fetch.php?pkg=c-ares&arch=arm64&ver=1.24.0-1&stamp=1702826366&raw=0) [origin](https://buildd.debian.org/status/package.php?p=c-ares)
+  
+  Fix By: Gregor Jasny (@gjasny)
+
+- [Brad House brought this change]
+
+  CI: Add Alpine Linux and old Ubuntu (#667)
+  
+  Alpine linux doesn't use glibc but instead musl c, so provides a good alternative test bed. We are also adding the oldest non-EOL ubuntu version so we can test against older linux variants to prevent surprises.
+  
+  This patch also migrates more tests to use cmake and ninja in order to reduce overall build times as we seem to run out of credits on Cirrus-CI pretty quickly.
+  
+  Fix By: Brad House (@bradh352)
+
+Brad House (17 Dec 2023)
+- fix support with older google test versions
+
+- getrandom() may require sys/random.h on some systems
+  
+  There is a reported build issue where getrandom() is detected
+  but compile fails due to a missing prototype. This commit attempts
+  to resolve that issue.
+  
+  Fixes Bug: #665
+  Fix By: Brad House (@bradh352)
+
+GitHub (17 Dec 2023)
+- [Martin Chang brought this change]
+
+  Use SOCK_DNS extension on socket on OpenBSD (#659)
+  
+  This patch added the `SOCK_DNS` flag when running on OpenBSD. Allowing a reduced set of `pledge(2)` promises. Before this patch. The "stdio rpath inet" promises must be used in order to resolve any records. After the patch inet can be replaced with dns which only allows communication on destination port 53, instead of on all ports.
+  
+  Side note: I checked the OpenBSD kernel source code. Even though the socket document says the DNS port (typically 53)., The OpenBSD 7.4 kernel only allows 53.
+  
+  Fix By: Martin Chang (@marty1885)
+
+Brad House (17 Dec 2023)
+- ci: disable static for symbol hiding tests
+
+- ci: add test case for building with hidden symbol visibility
+
+- fix test building with symbol hiding
+  
+  New test cases depend on internal symbols for calculating timeouts.
+  Disable those test features if symbol hiding is enabled.
+  
+  Fixes Bug: #664
+  Fix By: Brad House (@bradh352)
+
+Version 1.24.0 (16 Dec 2023)
+
+GitHub (16 Dec 2023)
+- [Brad House brought this change]
+
+  ares_cancel() could trigger callback with wrong response code (#663)
+  
+  When doing ares_gethostbyname() or ares_getaddrinfo() with AF_UNSPEC, if ares_cancel() was called after one address class was returned but before the other address class, it would return ARES_SUCCESS rather than ARES_ECANCELLED.
+  
+  Test case has been added for this specific condition.
+  
+  Fixes Bug: #662
+  Fix By: Brad House (@bradh352)
+
+- [Brad House brought this change]
+
+  rand: allow fallback from OS (#661)
+  
+  getrandom() can fail with ENOSYS if the libc supports the function but the kernel does not.
+  
+  Fixes Bug: #660
+  Fix By: Brad House (@bradh352)
+
+- [Brad House brought this change]
+
+  1.24.0 release prep (#657)
+
+Brad House (11 Dec 2023)
+- reference alternative to ares_getsock() in docs
+
+- tag some functions as deprecated in docs
+
+- Coverity: fix allocation size as reported in new code
+
+- remove dead code: ares_iphlpapi.h
+
+- remove dead code: bitncmp
+
+GitHub (9 Dec 2023)
+- [Brad House brought this change]
+
+  Use external GoogleTest instead of bundling it (#655)
+  
+  GoogleTest should be unbundled. Google changed their guidance a few years back and modern versions of google test cannot build the bundling code file.
+  
+  This PR also updates to use C++14 as is required by modern GoogleTest versions.
+  
+  Fixes Bug: #506
+  Fix By: Brad House (@bradh352)
+
+Brad House (8 Dec 2023)
+- use IF_NAMESIZE instead of IFNAMSIZ to avoid warning
+
+- remove redundant cast
+
+- clang-format and fix one warning
+
+GitHub (8 Dec 2023)
+- [Brad House brought this change]
+
+  Clean up some Windows-only warnings (#654)
+  
+  Windows was emitting some warnings due to datatype differences.
+  
+  Fix By: Brad House (@bradh352)
+
+- [Brad House brought this change]
+
+  Rewrite sortlist hand parser for memory safety and bugs (#653)
+  
+  The parser for the sortlist has been rewritten to use the ares__buf_*() functions. This also resolves some known bugs in accepting invalid sortlist entries which should have caused parse failures.
+  
+  Fixes Bug: #501
+  Fix By: Brad House (@bradh352)
+
+Brad House (8 Dec 2023)
+- enhance timeout test case to make sure it will re-use a previously downed server
+
+- enhance timeout test case
+
+- SonarCloud: make const
+
+GitHub (7 Dec 2023)
+- [Brad House brought this change]
+
+  increment failures on timeout (#651)
+  
+  As of c-ares 1.22.0, server timeouts were erroneously not incrementing server failures meaning the server in use wouldn't rotate.  There was apparently never a test case for this condition.
+  
+  This PR fixes the bug and adds a test case to ensure it behaves properly.
+  
+  Fixes Bug: #650
+  Fix By: Brad House (@bradh352)
+
+- [Brad House brought this change]
+
+  Windows UBSAN tests (#649)
+  
+  Fix UBSAN error, and enable UBSAN testing in AppVeyor.
+  
+  Fixes Bug #648
+  Fix By: Gisle Vanem (@gvanem)
+
+- [Brad House brought this change]
+
+  Support ipv6 link-local servers and %iface syntax (#646)
+  
+  Some environments may send router advertisements on a link setting their link-local (fe80::/10) address as a valid DNS server to the remote system.  This will cause a DNS entry to be created like `fe80::1%iface`, since all link-local network interfaces are technically part of the same /10 subnet, it must be told what interface to send packets through explicitly if there are multiple physical interfaces.
+  
+  This PR adds support for the %iface modifier when setting DNS servers via `/etc/resolv.conf` as well as via `ares_set_servers_csv()`.
+  
+  For MacOS and iOS it is assumed that libresolve will set the `sin6_scope_id` and should be supported, but my test systems don't seem to read the Router Advertisement for RDNSS link-local.  Specifying the link-local dns server on MacOS via adig has been tested and confirmed working.
+  
+  For Windows, this is similar to MacOS in that the system doesn't seem to honor the RDNSS RA, but specifying manually has been tested to work.
+  
+  At this point, Android support does not exist.
+  
+  Fixes Bug #462
+  Supersedes PR #463
+  
+  Fix By: Brad House (@bradh352) and Serhii Purik (@sergvpurik)
+
+Brad House (4 Dec 2023)
+- silence openwatcom warning due to qcache_max_ttl being unsigned
+
+- ares__round_up_pow2() work around bogus warning
+  
+  On 32bit systems, a codeblock that would intentionally never
+  be executed was emitting a warning.  Rework the code to
+  prevent the warning.  More code, no behavior difference, but
+  keeps people from complaining about the warning...
+  
+  Fixes Bug: #645
+  Fix By: Brad House (@bradh352)
+
+- try to move AC_USE_SYSTEM_EXTENSIONS
+
+- Enable system extensions
+  
+  Certain defines are needed on some systems to enable functionality like
+  pthread recursive mutexes.
+  
+  Fixes #644
+  Fix By: Brad House (@bradh352)
+
+- ares_init_options() with invalid options values should unset the option
+  
+  Apparently nodejs is relying on the above behavior for legacy reasons.  Add
+  sanity checks to the various optmask parameters where it makes sense.
+  
+  See https://github.com/nodejs/node/pull/50800
+  
+  Fix By: Brad House (@bradh352)
+
+- SonarCloud: silence bogus reported error
+
+- clang-format
+
+GitHub (2 Dec 2023)
+- [Brad House brought this change]
+
+  Nameserver parsing: replace another hand-written parser (#643)
+  
+  This replaces the nameserver parsing code with code that use ares__buf_*() in the name of memory safety.
+  
+  Fix By: Brad House (@bradh352)
+
 Version 1.23.0 (28 Nov 2023)
 
 GitHub (28 Nov 2023)
@@ -5744,222 +6075,3 @@ Yang Tse (29 Jun 2012)
 
 Daniel Stenberg (18 Jun 2012)
 - version: work towards 1.9.2 (at least)
-
-Version 1.9.1 (18 Jun 2012)
-
-Daniel Stenberg (18 Jun 2012)
-- RELEASE-NOTES: 1.9.1 coming up
-
-Version 1.9.0 (16 Jun 2012)
-
-Daniel Stenberg (16 Jun 2012)
-- ares_version.h: next version is 1.9.0
-
-- [Marko Kreen brought this change]
-
-  ares_data.h: ARES_DATATYPE_SOA_REPLY is added in 1.9.0
-
-- RELEASE-NOTES: synced with 979bf951d
-  
-  Next release deemed to become 1.9.0 due to the new function
-
-- [Marko Kreen brought this change]
-
-  SOA parser added
-  
-  I need to do SOA queries, so here is a parser for them.
-  
-  - ares_soa_reply: new struct
-  - ares_malloc_data/ares_free_soa: ARES_DATATYPE_SOA_REPLY
-  - ares_parse_soa_reply: actual function
-
-Yang Tse (14 Jun 2012)
-- Kill compiler warning
-
-- Fix libcares.pc generation for static MingW* cross builds
-
-Daniel Stenberg (21 May 2012)
-- [Nick Alcock brought this change]
-
-  Fix UDP and TCP port byte order in saved options.
-  
-  The UDP and TCP port are stored in network byte order in the
-  ares_channeldata, but are passed in to ares_init_options() in host byte
-  order.  Thus we must return them from ares_save_options() in host byte
-  order too, or a duplicated channel will convert them again, leading to a
-  nonfunctional channel and a mysterious connection refused error from
-  ares_gethostbyname().  This breaks ares_dup(), thus the curl easy API
-  when c-ares is used by curl, and thus all the curl easy API's users.
-
-Yang Tse (28 Apr 2012)
-- version: start working on 1.8.1-DEV
-
-Version 1.8.0 (27 Apr 2012)
-
-Daniel Stenberg (27 Apr 2012)
-- RELEASE-NOTES: call next 1.8 instead
-  
-  Since we added a function, let's use a stricter bumping scheme
-
-Yang Tse (25 Apr 2012)
-- INSTALL: some adjustments
-
-Daniel Stenberg (25 Apr 2012)
-- GIT-INFO: mention buildconf
-
-Yang Tse (25 Apr 2012)
-- INSTALL: remove more sections that don't apply to c-ares
-
-- ares_timeout.c: fix compiler warning
-
-Daniel Stenberg (25 Apr 2012)
-- [Ben Noordhuis brought this change]
-
-  Makefile.m32: fix mingw32 build
-  
-  * add . to include path so ares_build.h is picked up
-  * make ar configurable to ease cross-compiling
-
-- RELEASE-NOTES: added what's happened since 1.7.5
-
-Guenter Knauf (22 Apr 2012)
-- Updated copyright year.
-
-Yang Tse (21 Apr 2012)
-- ares_init.c: Further refactoring of Windows system's DNS fetching code
-
-Guenter Knauf (20 Apr 2012)
-- Android: small changes to dns property part.
-  
-  Prefix prop vars; kill var; use DNS_PROP_NAME_PREFIX macro.
-
-- Handle CNAME-only in ares_parse_aaaa_reply().
-  
-  posted to the c-ares list by Peter Griess <pg@std.in>.
-
-- Add support for multiple DNS servers on Android.
-  
-  Before, c-ares always used the first DNS server on Android, causing
-  network problems if this DNS server was not available.
-  
-  Signed-off-by: Geert Uytterhoeven <Geert.Uytterhoeven@sonycom.com>
-
-- Added INSTALL so it gets into tarballs.
-
-- Added some more ifdefs to silent compiler warnings.
-
-Yang Tse (17 Apr 2012)
-- INSTALL: remove a non c-ares section
-
-- cares-compilers.m4: -Wno-pedantic-ms-format for Windows gcc 4.5 builds
-  
-  When building a Windows target with gcc 4.5 or newer and strict compiler
-  warnings enabled use -Wno-pedantic-ms-format in addition to other flags.
-
-- setup_once.h: tighten requirements for stdbool.h header inclusion
-  
-  Include stdbool.h only when it is available and configure is capable of
-  detecting a proper 'bool' data type when the header is included.
-
-- configure: NATIVE_WINDOWS no longer defined in config file
-
-- cares-compilers.m4: double underscore decoration for visibility attribute
-
-- build adjustments: CARES_SYMBOL_HIDING no longer defined in config files
-  
-  configure script now provides conditional definitions for Makefile.am
-  that result in CARES_SYMBOL_HIDING being defined by resulting makefiles
-  when appropriate.
-
-- configure: Windows cross-compilation fixes
-  
-  CARES_BUILDING_LIBRARY and CARES_STATICLIB no longer defined in ares_config.h,
-  configure will generate appropriate conditionals so that mentioned symbols
-  get defined and used in Makefile derived from Makefile.am at compilation time.
-
-Guenter Knauf (17 Apr 2012)
-- Added INSTALL file adapted from libcurl.
-  
-  Not yet ready, and needs further edits.
-
-Yang Tse (16 Apr 2012)
-- ares_init.c: get_iphlpapi_dns_info() refactoring
-
-Guenter Knauf (16 Apr 2012)
-- Kill some more compiler warnings.
-
-- Kill compiler warning about unused var.
-
-- Fixed my last commit: wrong preprocessor directive.
-
-- Check for __ANDROID__ in addition to ANDROID macro.
-
-- Check for __ANDROID__ in addition to ANDROID macro.
-  
-  Posted to c-ares list by Wayne.
-
-- Fix for Android to disable useless arpa/nameser.h.
-
-- Fix for Android to include sys/select.h for fd_set.
-
-Yang Tse (17 Mar 2012)
-- ares_data.c: some NAPTR related fixes
-
-Daniel Stenberg (16 Mar 2012)
-- port numbers: convert them to network order!
-  
-  When the config options ARES_OPT_UDP_PORT or ARES_OPT_TCP_PORT are used,
-  make sure to convert them to network byte order!
-  
-  Bug: http://c-ares.haxx.se/mail/c-ares-archive-2012-02/0004.shtml
-
-- white space cleanup
-  
-  - Keep code within 80 columns
-  
-  - Removed funny spaces after open paren and before closing paren
-
-- [Poul Thomas Lomholt brought this change]
-
-  get_iphlpapi_dns_info: fix buffer overrun
-  
-  I experienced a buffer overrun exception in c-ares on Windows and
-  tracked it down to be an error in the calculation of the 'left' variable
-  in get_iphlpapi_dns_info().
-  
-  I changed the variable type of 'left' to a _signed_ type because of the
-  subtraction arithmetic; not sure if a long is the best choice
-
-- Merge pull request #7 from saghul/naptr
-  
-  Added support for parsing NAPTR records
-
-saghul (23 Feb 2012)
-- Added support for parsing NAPTR records
-
-Yang Tse (19 Jan 2012)
-- ares_init.c: fix compiler warning on winsock builds
-
-- configure: libtool 1.5 tweaks
-
-Daniel Stenberg (19 Dec 2011)
-- ares_timeout.3: fix the NAME section
-  
-  It was clearly a copy n' paste error
-
-Yang Tse (27 Sep 2011)
-- [Albert Chin brought this change]
-
-  configure - m4: make CURL_CHECK_DEF ignore leading whitespace on symbol def
-  
-  When using Sun C compiler the preprocessor somehow inserts an extra space
-  in front of replaced symbol, breaking CURL_CHECK_DEF macro. To workaround
-  this, macro CURL_CHECK_DEF now ignores all leading whitespace in front of
-  symbol substitution result.
-
-- ares_init.c: fix segfault triggered in ares_init_options() upon previous
-               failure of init_by_defaults() and incomplete cleanup there.
-
-- ares_process.c: fix compiler warning
-
-- fix MSVC compiler warning 'conditional expression is constant'

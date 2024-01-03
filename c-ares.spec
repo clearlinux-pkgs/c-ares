@@ -8,27 +8,27 @@
 # Source0 file verified with key 0x5CC908FDB71E12C2 (daniel@haxx.se)
 #
 Name     : c-ares
-Version  : 1.23.0
-Release  : 29
-URL      : https://c-ares.haxx.se/download/c-ares-1.23.0.tar.gz
-Source0  : https://c-ares.haxx.se/download/c-ares-1.23.0.tar.gz
-Source1  : https://c-ares.haxx.se/download/c-ares-1.23.0.tar.gz.asc
+Version  : 1.25.0
+Release  : 30
+URL      : https://c-ares.haxx.se/download/c-ares-1.25.0.tar.gz
+Source0  : https://c-ares.haxx.se/download/c-ares-1.25.0.tar.gz
+Source1  : https://c-ares.haxx.se/download/c-ares-1.25.0.tar.gz.asc
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
 License  : GPL-2.0+ MIT X11
 Requires: c-ares-lib = %{version}-%{release}
 Requires: c-ares-license = %{version}-%{release}
 BuildRequires : buildreq-configure
+BuildRequires : pkgconfig(gmock)
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
 
 %description
-c-ares
-======
-This package is based on ares 1.1.1 (written by Greg Hudson). Daniel Stenberg
-decided to fork and release a separate project since the original ares author
-didn't want the improvements that were vital for our use of it.
+___       __ _ _ __ ___  ___
+/ __| ___ / _` | '__/ _ \/ __|
+| (_  |___| (_| | | |  __/\__ \
+\___|     \__,_|_|  \___||___/
 
 %package dev
 Summary: dev components for the c-ares package.
@@ -59,10 +59,10 @@ license components for the c-ares package.
 
 
 %prep
-%setup -q -n c-ares-1.23.0
-cd %{_builddir}/c-ares-1.23.0
+%setup -q -n c-ares-1.25.0
+cd %{_builddir}/c-ares-1.25.0
 pushd ..
-cp -a c-ares-1.23.0 buildavx2
+cp -a c-ares-1.25.0 buildavx2
 popd
 
 %build
@@ -70,7 +70,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1701941394
+export SOURCE_DATE_EPOCH=1704293618
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -122,7 +122,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1701941394
+export SOURCE_DATE_EPOCH=1704293618
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
 cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/12127d9b9e698989a5b23087aa7c39f5e6eb264e || :
@@ -220,6 +220,7 @@ popd
 /usr/share/man/man3/ares_free_string.3
 /usr/share/man/man3/ares_freeaddrinfo.3
 /usr/share/man/man3/ares_get_servers.3
+/usr/share/man/man3/ares_get_servers_csv.3
 /usr/share/man/man3/ares_get_servers_ports.3
 /usr/share/man/man3/ares_getaddrinfo.3
 /usr/share/man/man3/ares_gethostbyaddr.3
@@ -276,9 +277,9 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libcares.so.2.9.0
+/V3/usr/lib64/libcares.so.2.10.1
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.9.0
+/usr/lib64/libcares.so.2.10.1
 
 %files license
 %defattr(0644,root,root,0755)
