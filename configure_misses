@@ -1,17 +1,7 @@
-Configure miss: CloseSocket
-Configure miss: CloseSocket
-Configure miss: ConvertInterfaceIndexToLuid
-Configure miss: ConvertInterfaceIndexToLuid
-Configure miss: ConvertInterfaceLuidToNameA
-Configure miss: ConvertInterfaceLuidToNameA
-Configure miss: IoctlSocket
-Configure miss: IoctlSocket
+Configure miss: AvailabilityMacros.h
+Configure miss: AvailabilityMacros.h
 Configure miss: SOCKET
 Configure miss: SOCKET
-Configure miss: __system_property_get
-Configure miss: __system_property_get
-Configure miss: closesocket
-Configure miss: closesocket
 Configure miss: g++ option to enable C++11 features
 Configure miss: g++ option to enable C++11 features
 Configure miss: gcc options needed to detect all undeclared functions
@@ -20,10 +10,6 @@ Configure miss: if g++ -std=c++14 static flag -static works
 Configure miss: if g++ -std=c++14 static flag -static works
 Configure miss: if libxnet is required
 Configure miss: if libxnet is required
-Configure miss: inet_net_pton
-Configure miss: inet_net_pton
-Configure miss: ioctlsocket
-Configure miss: ioctlsocket
 Configure miss: iphlpapi.h
 Configure miss: iphlpapi.h
 Configure miss: netioapi.h
@@ -32,14 +18,30 @@ Configure miss: pthread_np.h
 Configure miss: pthread_np.h
 Configure miss: socket.h
 Configure miss: socket.h
-Configure miss: strncmpi
-Configure miss: strncmpi
+Configure miss: sys/event.h
+Configure miss: sys/event.h
 Configure miss: whether C compiler accepts -Werror=partial-availability
 Configure miss: whether C compiler accepts -Werror=partial-availability
-Configure miss: whether CLOCK_MONOTONIC is declared
-Configure miss: whether CLOCK_MONOTONIC is declared
+Configure miss: whether CloseSocket is declared
+Configure miss: whether CloseSocket is declared
+Configure miss: whether ConvertInterfaceIndexToLuid is declared
+Configure miss: whether ConvertInterfaceIndexToLuid is declared
+Configure miss: whether ConvertInterfaceLuidToNameA is declared
+Configure miss: whether ConvertInterfaceLuidToNameA is declared
+Configure miss: whether IoctlSocket is declared
+Configure miss: whether IoctlSocket is declared
 Configure miss: whether SO_NONBLOCK is declared
 Configure miss: whether SO_NONBLOCK is declared
+Configure miss: whether __system_property_get is declared
+Configure miss: whether __system_property_get is declared
+Configure miss: whether closesocket is declared
+Configure miss: whether closesocket is declared
+Configure miss: whether ioctlsocket is declared
+Configure miss: whether ioctlsocket is declared
+Configure miss: whether kqueue is declared
+Configure miss: whether kqueue is declared
+Configure miss: whether strncmpi is declared
+Configure miss: whether strncmpi is declared
 Configure miss: whether this is native windows
 Configure miss: whether this is native windows
 Configure miss: whether to use libgcc
