@@ -95,6 +95,8 @@ libcares.so.2:ares_parse_uri_reply
 libcares.so.2:ares_process
 libcares.so.2:ares_process_fd
 libcares.so.2:ares_query
+libcares.so.2:ares_queue_active_queries
+libcares.so.2:ares_queue_wait_empty
 libcares.so.2:ares_reinit
 libcares.so.2:ares_save_options
 libcares.so.2:ares_search
