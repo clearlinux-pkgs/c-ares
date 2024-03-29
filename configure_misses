@@ -12,6 +12,8 @@ Configure miss: if libxnet is required
 Configure miss: if libxnet is required
 Configure miss: iphlpapi.h
 Configure miss: iphlpapi.h
+Configure miss: netinet6/in6.h
+Configure miss: netinet6/in6.h
 Configure miss: netioapi.h
 Configure miss: netioapi.h
 Configure miss: pthread_np.h

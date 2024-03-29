@@ -15,6 +15,7 @@ libcares.so.2:ares_dns_rec_type_fromstr
 libcares.so.2:ares_dns_rec_type_tostr
 libcares.so.2:ares_dns_record_create
 libcares.so.2:ares_dns_record_destroy
+libcares.so.2:ares_dns_record_duplicate
 libcares.so.2:ares_dns_record_get_flags
 libcares.so.2:ares_dns_record_get_id
 libcares.so.2:ares_dns_record_get_opcode
@@ -22,10 +23,13 @@ libcares.so.2:ares_dns_record_get_rcode
 libcares.so.2:ares_dns_record_query_add
 libcares.so.2:ares_dns_record_query_cnt
 libcares.so.2:ares_dns_record_query_get
+libcares.so.2:ares_dns_record_query_set_name
+libcares.so.2:ares_dns_record_query_set_type
 libcares.so.2:ares_dns_record_rr_add
 libcares.so.2:ares_dns_record_rr_cnt
 libcares.so.2:ares_dns_record_rr_del
 libcares.so.2:ares_dns_record_rr_get
+libcares.so.2:ares_dns_record_rr_get_const
 libcares.so.2:ares_dns_rr_get_addr
 libcares.so.2:ares_dns_rr_get_addr6
 libcares.so.2:ares_dns_rr_get_bin
@@ -95,12 +99,15 @@ libcares.so.2:ares_parse_uri_reply
 libcares.so.2:ares_process
 libcares.so.2:ares_process_fd
 libcares.so.2:ares_query
+libcares.so.2:ares_query_dnsrec
 libcares.so.2:ares_queue_active_queries
 libcares.so.2:ares_queue_wait_empty
 libcares.so.2:ares_reinit
 libcares.so.2:ares_save_options
 libcares.so.2:ares_search
+libcares.so.2:ares_search_dnsrec
 libcares.so.2:ares_send
+libcares.so.2:ares_send_dnsrec
 libcares.so.2:ares_set_local_dev
 libcares.so.2:ares_set_local_ip4
 libcares.so.2:ares_set_local_ip6
