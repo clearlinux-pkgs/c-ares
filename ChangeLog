@@ -1,5 +1,23 @@
    Changelog for the c-ares project. Generated with git2changes.pl
 
+Version 1.28.1 (30 Mar 2024)
+
+GitHub (30 Mar 2024)
+- [Brad House brought this change]
+
+  release prep for 1.28.1 (#739)
+
+Brad House (30 Mar 2024)
+- ares_search() and ares_getaddrinfo() resolution fails if no search domains
+  
+  Due to an error in creating the list of domains to search, if no search
+  domains were configured, resolution would fail.
+  
+  Fixes Issue: #737
+  Fix By: Brad House (@bradh352)
+
+- typo
+
 Version 1.28.0 (28 Mar 2024)
 
 GitHub (28 Mar 2024)
@@ -6327,10 +6345,3 @@ Yang Tse (10 Mar 2013)
 
 Daniel Stenberg (9 Mar 2013)
 - ares.h: there is no ares_free_soa function
-
-Yang Tse (9 Mar 2013)
-- Makefile.am: empty AM_LDFLAGS definition for automake 1.7 compatibility
-
-- ares_inet_ntop.3: s/socklen_t/ares_socklen_t
-
-- configure: use XC_LIBTOOL for portability across libtool versions
