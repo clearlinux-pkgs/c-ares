@@ -4,6 +4,8 @@ Configure miss: SOCKET
 Configure miss: SOCKET
 Configure miss: g++ option to enable C++11 features
 Configure miss: g++ option to enable C++11 features
+Configure miss: gcc option to enable large file support
+Configure miss: gcc option to enable large file support
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: if g++ -std=c++14 static flag -static works
