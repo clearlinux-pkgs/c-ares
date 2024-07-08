@@ -30,6 +30,11 @@ libcares.so.2:ares_dns_record_rr_cnt
 libcares.so.2:ares_dns_record_rr_del
 libcares.so.2:ares_dns_record_rr_get
 libcares.so.2:ares_dns_record_rr_get_const
+libcares.so.2:ares_dns_record_set_id
+libcares.so.2:ares_dns_rr_add_abin
+libcares.so.2:ares_dns_rr_del_abin
+libcares.so.2:ares_dns_rr_get_abin
+libcares.so.2:ares_dns_rr_get_abin_cnt
 libcares.so.2:ares_dns_rr_get_addr
 libcares.so.2:ares_dns_rr_get_addr6
 libcares.so.2:ares_dns_rr_get_bin
