@@ -8,11 +8,11 @@
 # Source0 file verified with key 0xC1D15611B2E4720B (brad@brad-house.com)
 #
 Name     : c-ares
-Version  : 1.33.0
-Release  : 40
-URL      : https://github.com/c-ares/c-ares/releases/download/v1.33.0/c-ares-1.33.0.tar.gz
-Source0  : https://github.com/c-ares/c-ares/releases/download/v1.33.0/c-ares-1.33.0.tar.gz
-Source1  : https://github.com/c-ares/c-ares/releases/download/v1.33.0/c-ares-1.33.0.tar.gz.asc
+Version  : 1.33.1
+Release  : 41
+URL      : https://github.com/c-ares/c-ares/releases/download/v1.33.1/c-ares-1.33.1.tar.gz
+Source0  : https://github.com/c-ares/c-ares/releases/download/v1.33.1/c-ares-1.33.1.tar.gz
+Source1  : https://github.com/c-ares/c-ares/releases/download/v1.33.1/c-ares-1.33.1.tar.gz.asc
 Source2  : C1D15611B2E4720B.pkey
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
@@ -67,10 +67,10 @@ chmod 700 .gnupg
 gpg --homedir .gnupg --import %{SOURCE2}
 gpg --homedir .gnupg --status-fd 1 --verify %{SOURCE1} %{SOURCE0} > gpg.status
 grep -E '^\[GNUPG:\] (GOODSIG|EXPKEYSIG) C1D15611B2E4720B' gpg.status
-%setup -q -n c-ares-1.33.0
-cd %{_builddir}/c-ares-1.33.0
+%setup -q -n c-ares-1.33.1
+cd %{_builddir}/c-ares-1.33.1
 pushd ..
-cp -a c-ares-1.33.0 buildavx2
+cp -a c-ares-1.33.1 buildavx2
 popd
 
 %build
@@ -78,7 +78,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1722866794
+export SOURCE_DATE_EPOCH=1724439614
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -132,7 +132,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1722866794
+export SOURCE_DATE_EPOCH=1724439614
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
 cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/eb842ed59ffa0beca69b26f2758707d3ae222b7c || :
@@ -306,9 +306,9 @@ GOAMD64=v2
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libcares.so.2.18.0
+/V3/usr/lib64/libcares.so.2.18.1
 /usr/lib64/libcares.so.2
-/usr/lib64/libcares.so.2.18.0
+/usr/lib64/libcares.so.2.18.1
 
 %files license
 %defattr(0644,root,root,0755)
