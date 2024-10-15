@@ -8,11 +8,11 @@
 # Source0 file verified with key 0xC1D15611B2E4720B (brad@brad-house.com)
 #
 Name     : c-ares
-Version  : 1.34.1
-Release  : 42
-URL      : https://github.com/c-ares/c-ares/releases/download/v1.34.1/c-ares-1.34.1.tar.gz
-Source0  : https://github.com/c-ares/c-ares/releases/download/v1.34.1/c-ares-1.34.1.tar.gz
-Source1  : https://github.com/c-ares/c-ares/releases/download/v1.34.1/c-ares-1.34.1.tar.gz.asc
+Version  : 1.34.2
+Release  : 43
+URL      : https://github.com/c-ares/c-ares/releases/download/v1.34.2/c-ares-1.34.2.tar.gz
+Source0  : https://github.com/c-ares/c-ares/releases/download/v1.34.2/c-ares-1.34.2.tar.gz
+Source1  : https://github.com/c-ares/c-ares/releases/download/v1.34.2/c-ares-1.34.2.tar.gz.asc
 Source2  : C1D15611B2E4720B.pkey
 Summary  : asynchronous DNS lookup library
 Group    : Development/Tools
@@ -66,10 +66,10 @@ chmod 700 .gnupg
 gpg --homedir .gnupg --import %{SOURCE2}
 gpg --homedir .gnupg --status-fd 1 --verify %{SOURCE1} %{SOURCE0} > gpg.status
 grep -E '^\[GNUPG:\] (GOODSIG|EXPKEYSIG) C1D15611B2E4720B' gpg.status
-%setup -q -n c-ares-1.34.1
-cd %{_builddir}/c-ares-1.34.1
+%setup -q -n c-ares-1.34.2
+cd %{_builddir}/c-ares-1.34.2
 pushd ..
-cp -a c-ares-1.34.1 buildavx2
+cp -a c-ares-1.34.2 buildavx2
 popd
 
 %build
@@ -77,7 +77,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1728570165
+export SOURCE_DATE_EPOCH=1729000507
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -131,7 +131,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1728570165
+export SOURCE_DATE_EPOCH=1729000507
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/c-ares
 cp %{_builddir}/c-ares-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/c-ares/eb842ed59ffa0beca69b26f2758707d3ae222b7c || :
@@ -200,6 +200,7 @@ GOAMD64=v2
 /usr/share/man/man3/ares_dns_rr.3
 /usr/share/man/man3/ares_dns_rr_add_abin.3
 /usr/share/man/man3/ares_dns_rr_del_abin.3
+/usr/share/man/man3/ares_dns_rr_del_opt_byid.3
 /usr/share/man/man3/ares_dns_rr_get_abin.3
 /usr/share/man/man3/ares_dns_rr_get_abin_cnt.3
 /usr/share/man/man3/ares_dns_rr_get_addr.3
@@ -297,6 +298,7 @@ GOAMD64=v2
 /usr/share/man/man3/ares_set_socket_callback.3
 /usr/share/man/man3/ares_set_socket_configure_callback.3
 /usr/share/man/man3/ares_set_socket_functions.3
+/usr/share/man/man3/ares_set_socket_functions_ex.3
 /usr/share/man/man3/ares_set_sortlist.3
 /usr/share/man/man3/ares_strerror.3
 /usr/share/man/man3/ares_svcb_param_t.3
