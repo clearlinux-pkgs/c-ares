@@ -4,8 +4,6 @@ Configure miss: SOCKET
 Configure miss: SOCKET
 Configure miss: g++ option to enable C++11 features
 Configure miss: g++ option to enable C++11 features
-Configure miss: gcc option to enable large file support
-Configure miss: gcc option to enable large file support
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: if g++ -std=c++14 static flag -static works
@@ -24,6 +22,8 @@ Configure miss: socket.h
 Configure miss: socket.h
 Configure miss: sys/event.h
 Configure miss: sys/event.h
+Configure miss: sys/system_properties.h
+Configure miss: sys/system_properties.h
 Configure miss: whether C compiler accepts -Werror=partial-availability
 Configure miss: whether C compiler accepts -Werror=partial-availability
 Configure miss: whether CloseSocket is declared
