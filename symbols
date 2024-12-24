@@ -57,6 +57,7 @@ libcares.so.2:ares_buf_parse_dns_str
 libcares.so.2:ares_buf_peek
 libcares.so.2:ares_buf_peek_byte
 libcares.so.2:ares_buf_reclaim
+libcares.so.2:ares_buf_replace
 libcares.so.2:ares_buf_set_length
 libcares.so.2:ares_buf_set_position
 libcares.so.2:ares_buf_split
@@ -300,6 +301,7 @@ libcares.so.2:ares_strerror
 libcares.so.2:ares_strlen
 libcares.so.2:ares_strncasecmp
 libcares.so.2:ares_strncmp
+libcares.so.2:ares_strnlen
 libcares.so.2:ares_threadsafety
 libcares.so.2:ares_timeout
 libcares.so.2:ares_tolower

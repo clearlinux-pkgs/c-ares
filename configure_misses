@@ -24,8 +24,6 @@ Configure miss: sys/event.h
 Configure miss: sys/event.h
 Configure miss: sys/system_properties.h
 Configure miss: sys/system_properties.h
-Configure miss: whether C compiler accepts -Werror=partial-availability
-Configure miss: whether C compiler accepts -Werror=partial-availability
 Configure miss: whether CloseSocket is declared
 Configure miss: whether CloseSocket is declared
 Configure miss: whether ConvertInterfaceIndexToLuid is declared
@@ -52,6 +50,8 @@ Configure miss: whether kqueue is declared
 Configure miss: whether kqueue is declared
 Configure miss: whether strncmpi is declared
 Configure miss: whether strncmpi is declared
+Configure miss: whether the C compiler accepts -Werror=partial-availability
+Configure miss: whether the C compiler accepts -Werror=partial-availability
 Configure miss: whether this is native windows
 Configure miss: whether this is native windows
 Configure miss: whether to use libgcc
